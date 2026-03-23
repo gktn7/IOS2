@@ -1,24 +1,53 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { ThemeProvider as AppThemeProvider, useTheme } from '@/context/ThemeContext';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { Stack, router } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+SplashScreen.preventAutoHideAsync();
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+function RootNavigation() {
+  const { isAuthenticated, isLoading } = useAuth();
+  const { theme } = useTheme();
+  const [loaded] = useFonts({});
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    if (loaded && !isLoading) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, isLoading]);
+
+  useEffect(() => {
+    if (!loaded || isLoading) return;
+    if (!isAuthenticated) {
+      router.replace('/login');
+    } else {
+      router.replace('/(tabs)');
+    }
+  }, [isAuthenticated, isLoading, loaded]);
+
+  if (!loaded || isLoading) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+    <NavigationThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="login" />
+        <Stack.Screen name="register" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    </NavigationThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AppThemeProvider>
+      <AuthProvider>
+        <RootNavigation />
+      </AuthProvider>
+    </AppThemeProvider>
   );
 }
