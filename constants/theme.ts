@@ -12,14 +12,14 @@ export const Colors = {
   light: {
     text: '#0F172A',
     secondaryText: '#64748B',
-    background: '#F8FAFC',
+    background: '#FFFFFF',
     card: '#FFFFFF',
     border: '#E2E8F0',
     tint: '#3B82F6',
     icon: '#64748B',
     tabIconDefault: '#94A3B8',
     tabIconSelected: '#3B82F6',
-    input: '#F1F5F9',
+    input: '#FFFFFF',
   },
   dark: {
     text: '#F1F5F9',

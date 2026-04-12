@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: '#1E293B',
         borderRadius: 24,
-        padding: 28,
+        padding: 24,
         shadowColor: '#000',
         shadowOpacity: 0.4,
         shadowRadius: 20,
@@ -165,6 +165,9 @@ const styles = StyleSheet.create({
         elevation: 12,
         borderWidth: 1,
         borderColor: '#334155',
+        width: '100%',
+        maxWidth: 340,
+        alignSelf: 'center',
     },
     title: { fontSize: 22, fontWeight: '700', color: '#F8FAFC', marginBottom: 4 },
     subtitle: { fontSize: 14, color: '#94A3B8', marginBottom: 24 },

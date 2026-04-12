@@ -36,6 +36,7 @@ function RootNavigation() {
         <Stack.Screen name="login" />
         <Stack.Screen name="register" />
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="news-detail" options={{ animation: 'slide_from_right' }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </NavigationThemeProvider>
